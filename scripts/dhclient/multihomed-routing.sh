@@ -144,7 +144,9 @@ handle_bound_renew_rebind_reboot()
 
     #This function replaces the handling in the main script. Thus, we need to
     #prevent the main script from handling these four states
-    unset reason
+    if [ ! "$new_rfc3442_classless_static_routes" ]; then
+    	unset reason
+    fi
 }
 
 handle_timeout()
@@ -227,8 +229,9 @@ handle_timeout()
         ip -4 addr flush dev ${interface}
         exit_with_hooks 2
     fi
-
-    unset reason
+    if [ ! "$new_rfc3442_classless_static_routes" ]; then
+    	unset reason
+    fi
 }
 
 case "$reason" in
